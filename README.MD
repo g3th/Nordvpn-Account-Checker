@@ -1,4 +1,5 @@
-##Nordvpn Account Checker
+# Nordvpn Account Checker
+## Includes Windows executable
 
 Checks a combolist of existing nordvpn accounts, acquired by the usual suspect means, to determine which accounts are valid.
 
