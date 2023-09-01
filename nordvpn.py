@@ -10,15 +10,16 @@ from header import title
 user = []
 password = []
 if getattr(sys, 'frozen', False):# and hasattr(sys, 'MEIPASS'):
-    user_directory = str(Path(sys.executable).parent)
+    user_directory = str(Path(sys.executable).parent) + "\\nord.txt"
 else:
-    user_directory = str(Path(__file__).parent)
+    user_directory = str(Path(__file__).parent)  + "/nord.txt"
 try:
-    with open (user_directory + "\\nord.txt", 'r') as combos:
+    with open (user_directory, 'r') as combos:
         for i in combos.readlines():
             user.append(i.split(":")[0])
             password.append(i.split(":")[1].split(" ")[0].strip())
-except FileNotFoundError:
+except FileNotFoundError as e:
+    print(e)
     print("No combolist found in: " + user_directory + "\nPlease add 'nord.txt' and try again.\nPress Enter to end.")
     input()
     exit()
@@ -27,9 +28,9 @@ try:
 except FileNotFoundError:
     pass
 index = 0
-while index != len(user):
-    title()
-    with open(user_directory + "\\nord_accounts.txt", 'a') as accounts:
+title()
+while index != len(user): 
+    with open(user_directory, 'a') as accounts:
         browser_options = stealthdriver.ChromeOptions()
         browser_options.add_argument(
             'user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) '
