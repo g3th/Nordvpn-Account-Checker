@@ -17,7 +17,7 @@ if getattr(sys, 'frozen', False):# and hasattr(sys, 'MEIPASS'):
 else:
     user_directory = str(Path(__file__).parent)  + "/nord.txt"
     save_directory = str(Path(__file__).parent) + "/valid_accounts"
-    os.makedirs(save_directory, exist_ok=True)
+    os.makedirs(save_directory, exists_ok=True)
     save_file = "/valid_accounts.txt"
 try:
     os.remove(save_directory + save_file)
