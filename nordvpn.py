@@ -16,6 +16,7 @@ if getattr(sys, 'frozen', False):# and hasattr(sys, 'MEIPASS'):
     save_file = "\\valid_accounts.txt"
 else:
     user_directory = str(Path(__file__).parent) + "/nord.txt"
+    user_directory = str(Path(__file__).parent)  + "/nord.txt"
     save_directory = str(Path(__file__).parent) + "/valid_accounts"
     os.makedirs(save_directory, exist_ok=True)
     save_file = "/valid_accounts.txt"
