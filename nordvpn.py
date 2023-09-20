@@ -42,7 +42,7 @@ while index != len(user):
         browser_options.add_argument(
             'user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) '
             'Chrome/103.0.5060.134 ''Safari/537.36')
-        #browser_options.add_argument('--headless=new')
+        # browser_options.add_argument('--headless=new')
         browser = stealthdriver.Chrome(options=browser_options)
         page = 'https://www.nordvpn.com/'
         browser.set_window_size(800, 200)
