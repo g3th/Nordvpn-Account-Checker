@@ -1,7 +1,9 @@
 # Nordvpn Account Checker
 ## Includes Windows executable
 
-**22/09/23 - Currently not working on Windows due to undetected_chromedriver problems with latest Chrome update (117).**
+**22/09/23 - Currently not working on Windows**
+**Please use the included version of Chrome for checking_account/testing**
+**You can install it on bare-metal Debian/Kali or in a Virtual Box**
 
 Checks a combolist of existing nordvpn accounts, acquired by the usual suspect means, to determine which accounts are valid.
 
