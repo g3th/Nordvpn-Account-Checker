@@ -54,10 +54,10 @@ while index != len(user):
             browser_options = stealthdriver.ChromeOptions()
             browser_options.add_argument(
                 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                'Chrome/117.0.0.0 Safari/537.36')
+                'Chrome/116.0.0.0 Safari/537.36')
             #browser_options.add_argument("--auto-open-devtools-for-tabs")
             # browser_options.add_argument('--headless=new')
-            browser = stealthdriver.Chrome(options=browser_options)
+            browser = stealthdriver.Chrome(version_main=102)
             page = 'https://www.nordvpn.com/'
             browser.set_window_size(800, 200)
             browser.get(page)
@@ -71,7 +71,7 @@ while index != len(user):
             while True:
                 if browser.find_elements(By.XPATH, '/html/body/div/div/div/main/form/fieldset/div/span/input'):
                     break
-                if time.time() - start > 50 and counter == 0:
+                if time.time() - start > 30 and counter == 0:
                     print("\n\nCloudflare Time Out")
                     exit()
                 if counter > 5:
