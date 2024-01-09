@@ -1,6 +1,7 @@
 import time
 import os
 import undetected_chromedriver as stealthdriver
+from urllib.error import ContentTooShortError
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 import sys
@@ -130,11 +131,15 @@ while index != len(user):
             index += 1
             retries = 0
     except NoSuchElementException as b:
-        print(" | Error: No Such Element - Retrying")
+        print("Error: No Such Element - Retrying")
         retries += 1
         browser.quit()
     except WebDriverException as e:
-        print(" | Error: Web Driver Exception - Retrying")
+        print("Error: Web Driver Exception - Retrying")
+        retries += 1
+        browser.quit()
+    except ContentTooShortError as c:
+        print("Error: Url Lib Exception - Retrying")
         retries += 1
         browser.quit()
 
