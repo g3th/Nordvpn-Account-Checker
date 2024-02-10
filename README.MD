@@ -1,10 +1,13 @@
 # Nordvpn Account Checker
-## Includes Windows executable
+## Linux Only
 
-### Linux Only
 ### How to Install:
 
 https://github.com/g3th/Nordvpn-Account-Checker/assets/74467654/89d0a0c1-45e2-4d93-82c0-83067321fab2
+
+To remove current google version (and subsequently downgrade as shown above):
+
+```sudo apt remove google-chrome-stable```
 
 Checks a combolist of existing nordvpn accounts, acquired by the usual suspect means, to determine which accounts are valid.
 
