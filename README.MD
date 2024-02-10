@@ -16,6 +16,4 @@ Install requirements with:
 
 Run in terminal:
 
-```python3 nordvpn.py``` (Debian-based distributions, Windows Powershell/cmd line)
-
-or download and run the executable for windows.
+```python3 nordvpn.py``` (Debian-based distributions, Windows Powershell/cmd line).
