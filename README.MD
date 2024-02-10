@@ -1,9 +1,10 @@
 # Nordvpn Account Checker
 ## Includes Windows executable
 
-**Currently not working on Windows**
+### Linux Only
+### How to Install:
 
-**Install on linux distro with included Chrome version**
+https://github.com/g3th/Nordvpn-Account-Checker/assets/74467654/89d0a0c1-45e2-4d93-82c0-83067321fab2
 
 Checks a combolist of existing nordvpn accounts, acquired by the usual suspect means, to determine which accounts are valid.
 
