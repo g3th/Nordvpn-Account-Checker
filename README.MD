@@ -11,7 +11,7 @@ To remove current google version (and subsequently downgrade as shown above):
 
 Checks a combolist of existing nordvpn accounts, acquired by the usual suspect means, to determine which accounts are valid.
 
-Can be run in Linux distributions. Tested in Kali (Bare-metal), Debian and Ubuntu (Vbox). Make sure to include a "nord.txt" combolist in the program's path.
+Run in Linux distributions. Tested in Kali (Bare-metal), Debian and Ubuntu (Vbox). Make sure to include a "nord.txt" combolist in the program's path.
 
 Install requirements with:
 
