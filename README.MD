@@ -1,22 +1,41 @@
 # Nordvpn Account Checker
-## Linux Only
+## Linux Distributions only
 
-### How to Install:
+### How to Run:
 
 https://github.com/g3th/Nordvpn-Account-Checker/assets/74467654/89d0a0c1-45e2-4d93-82c0-83067321fab2
 
-To remove current google version (and subsequently downgrade as shown above):
+
+Pick or toggle an option from the menu, and start the checker when needed.
+
+
+```Save Cookie``` and ```Headless Mode``` will be added in the near future.
+
+
+Don't forget to include a combolist, named 'nord.txt', in the program's main folder.
+
+
+Run in terminal:
+
+```python3 nordvpn.py```.
+
+
+### How to Install
+
+
+To remove current google version (and subsequently downgrade):
+
 
 ```sudo apt remove google-chrome-stable```
 
-Checks a combolist of existing nordvpn accounts, acquired by the usual suspect means, to determine which accounts are valid.
 
-Run in Linux distributions. Tested in Kali (Bare-metal), Debian and Ubuntu (Vbox). Make sure to include a "nord.txt" combolist in the program's path.
+The correct ```chromedriver``` version for the ```google-chrome-stable``` package version above is included.
+
+
+### Requirements
+
 
 Install requirements with:
 
 ```pip install -r requirements.txt```
 
-Run in terminal:
-
-```python3 nordvpn.py``` (Debian-based distributions, Windows Powershell/cmd line).
