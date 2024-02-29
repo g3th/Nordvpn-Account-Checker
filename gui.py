@@ -48,8 +48,11 @@ class UserInterface:
                     self.loop_length = self.checker.get_credentials()
                     self.checker_running()
                     while self.counter < self.loop_length:
-                        self.checker.start(self.counter)
-                        self.counter += 1
+                        checker = self.checker.start(self.counter)
+                        if checker == 1:
+                            pass
+                        else:
+                            self.counter += 1
                 case "2":
                     self.window_size_options()
                 case "3":
