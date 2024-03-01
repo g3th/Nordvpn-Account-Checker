@@ -1,4 +1,5 @@
 import subprocess
+import os
 from subprocess import PIPE
 from subprocess import DEVNULL
 from checker import Checker
@@ -51,14 +52,20 @@ class UserInterface:
                     while self.counter < self.loop_length:
                         checker = self.checker.start(self.counter)
                         if checker == 1:
-                            if self.error_count > 5:
-                                print("\nToo many errors. \nStatus is either 429 or there are other connection problems.")
+                            if self.error_count == 0:
+                                print("\nToo many errors.")
+                                print("Status is either 429 or there are other connection problems.")
+                                print("Resume file created, you can resume from last combo checked.")
                                 print("Ending.")
+                                self.create_resume_file()
                                 exit()
                             self.error_count += 1
                         else:
                             self.error_count = 0
                             self.counter += 1
+                    for i in os.listdir():
+                        if "resume_from_index" in i:
+                            os.remove("resume_from_index")
                 case "2":
                     self.window_size_options()
                 case "3":
@@ -96,3 +103,7 @@ class UserInterface:
             case _:
                 print("Invalid size")
         self.window_size = window_size
+
+    def create_resume_file(self):
+        with open("resume_from_index", 'w') as resume_file:
+            resume_file.write(str(self.counter))
