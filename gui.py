@@ -52,7 +52,7 @@ class UserInterface:
                     while self.counter < self.loop_length:
                         checker = self.checker.start(self.counter)
                         if checker == 1:
-                            if self.error_count == 0:
+                            if self.error_count > 5:
                                 print("\nToo many errors.")
                                 print("Status is either 429 or there are other connection problems.")
                                 print("Resume file created, you can resume from last combo checked.")
