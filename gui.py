@@ -51,7 +51,7 @@ class UserInterface:
                     while self.counter < self.loop_length:
                         checker = self.checker.start(self.counter)
                         if checker == 1:
-                            if self.error_count > 7:
+                            if self.error_count > 5:
                                 print("\nToo many errors. \nStatus is either 429 or there are other connection problems.")
                                 print("Ending.")
                                 exit()
