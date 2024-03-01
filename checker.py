@@ -53,6 +53,7 @@ class Checker:
             time.sleep(0.8)
             password_button.click()
             time.sleep(3)
+            self.browser.close()
         except NoSuchElementException:
             print(" - No such Element - Retrying")
             return 1
