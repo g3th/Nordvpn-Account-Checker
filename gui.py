@@ -66,6 +66,8 @@ class UserInterface:
                     for i in os.listdir():
                         if "resume_from_index" in i:
                             os.remove("resume_from_index")
+                    print("Done. Press Enter for main menu")
+                    input()
                 case "2":
                     self.window_size_options()
                 case "3":

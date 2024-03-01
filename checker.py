@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 
 class Checker:
     def __init__(self, window_size):
+        self.account_statuses = ['Expires', 'Renews']
         self.browser = None
         self.path = str(Path(__file__).parent)
         self.save_directory = self.path + "/valid_accounts/valid"
@@ -71,7 +72,7 @@ class Checker:
             if self.browser.find_elements(By.XPATH, '//div[@class="text-small inline-block text-grey-darkest"]'):
                 account_status_text = (self.browser.find_element
                                        (By.XPATH, '//div[@class="text-small inline-block text-grey-darkest"]').text)
-                if "Expires" in account_status_text:
+                if [status for status in self.account_statuses if (status in account_status_text)]:
                     print(" ---> Success!".format(self.users[counter], self.passwords[counter]))
                     self.save_account(self.users[counter], self.passwords[counter])
                 if "Expired" in account_status_text:
