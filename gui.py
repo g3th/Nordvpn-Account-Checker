@@ -7,6 +7,7 @@ from checker import Checker
 class UserInterface:
 
     def __init__(self):
+        self.error_count = 0
         self.command_as_list = ['curl', 'ipinfo.io/ip']
         self.loop_length = 0
         self.window_size = [500, 500]
@@ -50,8 +51,13 @@ class UserInterface:
                     while self.counter < self.loop_length:
                         checker = self.checker.start(self.counter)
                         if checker == 1:
-                            pass
+                            if self.error_count > 7:
+                                print("\nToo many errors. \nStatus is either 429 or there are other connection problems.")
+                                print("Ending.")
+                                exit()
+                            self.error_count += 1
                         else:
+                            self.error_count = 0
                             self.counter += 1
                 case "2":
                     self.window_size_options()

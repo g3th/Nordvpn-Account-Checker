@@ -33,17 +33,7 @@ class Checker:
         combos.close()
         return len(self.users)
 
-    def check_denied_request(self):
-        denied = [403, 429]
-        req = requests.get(self.page)
-        if [request for request in denied if (req.status_code == request)]:
-            print("\nToo many requests - Access Denied")
-            print("Change proxy/vpn and try again.")
-            print("Ending.")
-            exit()
-
     def start(self, counter):
-        self.check_denied_request()
         try:
             self.browser = stealthdriver.Chrome(browser_executable_path="/usr/bin/google-chrome-stable",
                                                 driver_executable_path=self.driver_path)
