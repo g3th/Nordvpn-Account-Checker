@@ -50,7 +50,7 @@ class Checker:
             self.browser.get(self.page)
             print("Trying combo: {}:{}".format(self.users[counter], self.passwords[0]), end="")
             time.sleep(1)
-            email = self.browser.find_element(By.XPATH, "//input[@aria-label='Username or email address']")
+            email = self.browser.find_element(By.XPATH, "//input[@aria-label='Email address']")
             email_button = self.browser.find_element(By.XPATH, "//button[@type='submit']")
             email.send_keys(self.users[counter])
             time.sleep(0.5)
