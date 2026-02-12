@@ -26,7 +26,9 @@ class UserInterface:
         print('\33[38;5;81m██║╚██╗██║██║   ██║██╔══██╗██║  ██║╚██╗ ██╔╝██╔═══╝ ██║╚██╗██║')
         print('\33[38;5;75m██║ ╚████║╚██████╔╝██║  ██║██████╔╝ ╚████╔╝ ██║     ██║ ╚████║')
         print('\33[38;5;45m╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝   ╚═══╝  ╚═╝     ╚═╝  ╚═══╝')
-        print('\33[38;5;45m---------- by Roberto Toledo (github.com/g3th) ---------------')
+        print('\033[38;5;226m	DOWNLOAD MY NEW MOBILE GAME!')
+        print('\033[38;5;226m	---- TAURUS ---')
+        print('\033[38;5;226mhttps://play.google.com/store/apps/details?id=com.taurusthebrickbreakingsaga\n\n')
 
     def menu(self):
         print('[1] Start Checker')
